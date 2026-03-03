@@ -1,7 +1,7 @@
 import asyncio
 from aiogram import Bot, Dispatcher, types
 from config import BOT_TOKEN
-from db import connect_db, init_db
+from database import connect_db, init_db
 from ai_engine import evaluate_answer
 
 bot = Bot(token=BOT_TOKEN)
