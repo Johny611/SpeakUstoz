@@ -9,17 +9,13 @@ async def connect_db():
     pool = await asyncpg.create_pool(DATABASE_URL)
 
 
-async def get_pool():
-    return pool
-
-
 async def init_db():
     async with pool.acquire() as conn:
         await conn.execute(
             """
         CREATE TABLE IF NOT EXISTS users (
             id SERIAL PRIMARY KEY,
-            telegram_id BIGINT UNIQUE,
+            telegram_id BIGINT UNIQUE NOT NULL,
             subscription_until TIMESTAMP,
             created_at TIMESTAMP DEFAULT NOW()
         );
