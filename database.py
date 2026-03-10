@@ -41,6 +41,44 @@ async def init_db():
             """
         )
 
+        # Migrate old users table safely
+        await conn.execute(
+            """
+            ALTER TABLE users
+            ADD COLUMN IF NOT EXISTS username TEXT;
+            """
+        )
+        await conn.execute(
+            """
+            ALTER TABLE users
+            ADD COLUMN IF NOT EXISTS first_name TEXT;
+            """
+        )
+        await conn.execute(
+            """
+            ALTER TABLE users
+            ADD COLUMN IF NOT EXISTS is_blocked BOOLEAN NOT NULL DEFAULT FALSE;
+            """
+        )
+        await conn.execute(
+            """
+            ALTER TABLE users
+            ADD COLUMN IF NOT EXISTS current_mode TEXT;
+            """
+        )
+        await conn.execute(
+            """
+            ALTER TABLE users
+            ADD COLUMN IF NOT EXISTS current_step TEXT;
+            """
+        )
+        await conn.execute(
+            """
+            ALTER TABLE users
+            ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
+            """
+        )
+
         await conn.execute(
             """
             CREATE TABLE IF NOT EXISTS subscriptions (
