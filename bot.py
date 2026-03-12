@@ -458,9 +458,10 @@ async def text_handler(message: types.Message):
             result = "Full mock mode is not implemented yet."
         else:
             result = "Unknown mode selected. Please choose a mode again."
-    except Exception:
+    except Exception as e:
+        print(f"AI ERROR: {repr(e)}")
         return await message.answer(
-            "AI service is temporarily unavailable. Please try again later.",
+            f"AI error: {type(e).__name__}",
             reply_markup=main_menu,
         )
 
